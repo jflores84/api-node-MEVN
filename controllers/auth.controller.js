@@ -36,7 +36,7 @@ export const login = async (req, res)=>{
         generateRefreshToken(user.id, res);
 
         //quitar el otro objeto antes de poner en produccion
-        return res.json([{message: 'Loged in'}, {token: token}]);        
+        return res.json({token: token, expiresIn: expiresIn});        
     } catch (error) {
         console.log(error);
         return res.status(500).json({error: "error de servidor"});
