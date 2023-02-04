@@ -43,7 +43,7 @@ app.use("/", redirectRouter);
 
 
 //solo para ejemplo
-app.use(express.static('public'));
+//app.use(express.static('public'));
 
 
 app.get("/", (req,res)=>{
