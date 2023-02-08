@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-const expiresIn = 60 * 60;
+const expiresIn = 60 * 15;
 
 export const generateToken = (uid) => {
     try {
@@ -12,7 +12,7 @@ export const generateToken = (uid) => {
  
 
 export const generateRefreshToken = (uid, res) => {
-    const expiresIn = 60 * 60 * 24 * 30;
+    //const expiresIn = 60 * 15;
     try {
         const refreshToken = jwt.sign({ uid }, process.env.JWT_REFRESH, { expiresIn });
         return res.cookie("refreshToken", refreshToken, {

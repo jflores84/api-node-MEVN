@@ -10,11 +10,11 @@ export const register = async(req, res)=>{
         user = new User({email, password});
         await user.save();
         //genera token=====esto es innecesario
-            const {token, expiresIn} = generateToken(user._id);
-            generateRefreshToken(user.id, res);
-        //++++++++
+           // const {token, expiresIn} = generateToken(user._id);
+            //generateRefreshToken(user.id, res);
+        //++++++++ lo he comentado para evitar ninicio de sesion automatico
 
-        return res.json([{ok: true}, {token, expiresIn}]);
+        return res.json({ok: true});
     } catch (error) {
         if(error.code === 11000){
             return res.status(400).json({error: 'Usuario ya existe'});
@@ -26,20 +26,22 @@ export const register = async(req, res)=>{
 export const login = async (req, res)=>{
     try {
         const {email, password} = req.body;
-        let user = await User.findOne({ email });
-        const respuestaPassword = await user.comparePassword(password);
 
+        let user = await User.findOne({ email });
         if(!user) return res.status(403).json({error: "No existe este usuario"});
+        
+        const respuestaPassword = await user.comparePassword(password);
         if(!respuestaPassword) return res.status(403).json({error: "contrasena incorrecta"});
 
         const {token, expiresIn} = generateToken(user._id);
         generateRefreshToken(user.id, res);
 
-        //quitar el otro objeto antes de poner en produccion
-        return res.json({token: token, expiresIn: expiresIn});        
+
+        return res.json({ok: true});  
+              
     } catch (error) {
         console.log(error);
-        return res.status(500).json({error: "error de servidor"});
+        return res.status(500).json({ error: "Error de servidor" });
     }
 }
 
