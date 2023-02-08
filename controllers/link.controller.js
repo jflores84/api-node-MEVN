@@ -95,7 +95,7 @@ export const createLink = async (req, res) => {
         });
 
         const newLink = await link.save();
-        res.json({ newLink });
+        return res.status(201).json( newLink );
     } catch (error) {
 
     }
