@@ -11,7 +11,7 @@ export const generateToken = (uid) => {
 }
 
 
-export const generateRefreshToken = (uid, res) => {
+export const generateRefreshToken = (uid, req, res) => {
     //const expiresIn = 60 * 15;
     try {
         const refreshToken = jwt.sign({ uid }, process.env.JWT_REFRESH, { expiresIn });
@@ -21,7 +21,7 @@ export const generateRefreshToken = (uid, res) => {
             httpOnly: true,
             secure: false,
             expires: new Date(Date.now() + expiresIn * 1000)
-        })
+        });
     } catch (error) {
         console.log(error);
     }
