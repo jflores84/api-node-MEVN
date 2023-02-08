@@ -16,12 +16,14 @@ export const generateRefreshToken = (uid, req, res) => {
     try {
         const refreshToken = jwt.sign({ uid }, process.env.JWT_REFRESH, { expiresIn });
 
-        res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure: !(process.env.MODO === "developer"),
-            expires: new Date(Date.now() + expiresIn * 1000),
-            sameSite: "none",
-        });
+        res.cookie('refreshToken',refreshToken, { maxAge: 900000, httpOnly: true });
+
+        // res.cookie("refreshToken", refreshToken, {
+        //     httpOnly: true,
+        //     secure: !(process.env.MODO === "developer"),
+        //     expires: new Date(Date.now() + expiresIn * 1000),
+        //     sameSite: "none",
+        // });
 
         // return res.cookie("refreshToken", refreshToken, {
         //     sameSite: false,
